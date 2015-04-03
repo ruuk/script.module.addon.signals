@@ -9,7 +9,6 @@
 		<description lang="en">Provides signal/slot mechanism for inter-addon communication</description>
 		<platform>all</platform>
 		<license>GNU GENERAL PUBLIC LICENSE Version 2.1, February 1999</license>
-		<forum></forum>
-		<source></source>
+		<source>https://github.com/ruuk/script.module.addon.signals</source>
 	</extension>
 </addon>
