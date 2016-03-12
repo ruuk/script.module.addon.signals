@@ -1,7 +1,7 @@
 # script.module.addon.signals
 Provides signal/slot mechanism for inter-addon communication in Kodi
 
-```
+```python
 # In target addon
 import AddonSignals
 ​
