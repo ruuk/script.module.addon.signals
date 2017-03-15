@@ -8,11 +8,11 @@ import AddonSignals
 def callback(data):
 	# Do something with data
 	
-AddonSignals.registerSlot(sender.addon.id, signal_name, callback)
+AddonSignals.registerSlot('sender.addon.id', 'signal_name', callback)
 ​
 ​
 #In source addon
 import AddonSignals
 ​
-AddonSignals.sendSignal(signal_name, {'some': 'data'})
+AddonSignals.sendSignal('signal_name', {'some': 'data'})
 ```
