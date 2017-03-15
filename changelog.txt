@@ -1,5 +1,9 @@
 Changelog for Addon Signals
 
+** 0.0.2 **
+
+Add registerCall(), makeCall() and returnCall()
+
 ** 0.0.1 **
 
 Initial release

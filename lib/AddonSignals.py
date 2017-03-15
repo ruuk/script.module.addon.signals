@@ -7,7 +7,8 @@ RECEIVER = None
 
 def _getReceiver():
     global RECEIVER
-    if not RECEIVER: RECEIVER = SignalReceiver()
+    if not RECEIVER:
+        RECEIVER = SignalReceiver()
     return RECEIVER
 
 def _decodeData(data):
@@ -38,15 +39,49 @@ class SignalReceiver(xbmc.Monitor):
         if not signal in self._slots[sender]: return
         self._slots[sender][signal](_decodeData(data))
 
-def registerSlot(signaler_id,signal,callback):
-    receiver = _getReceiver()
-    receiver.registerSlot(signaler_id,signal,callback)
+class CallHandler:
+    def __init__(self, signal, data, source_id, timeout=1000):
+        self.signal = signal
+        self.data = data
+        self.timeout = timeout
+        self.sourceID = source_id
+        self._return = None
+        registerSlot(self.sourceID, '_return.{0}'.format(self.signal), self.callback)
+        sendSignal(signal, data, self.sourceID)
 
-def unRegisterSlot(signaler_id,signal):
-    receiver = _getReceiver()
-    receiver.unRegisterSlot(signaler_id,signal)
+    def callback(self, data):
+        self._return = data
 
-def sendSignal(signal,data=None,sourceID=None):
-    sourceID = sourceID or xbmcaddon.Addon().getAddonInfo('id')
-    command = 'XBMC.NotifyAll({0}.SIGNAL,{1},{2})'.format(sourceID,signal,_encodeData(data))
+    def waitForReturn(self):
+        waited = 0
+        while waited < self.timeout:
+            if self._return is not None:
+                break
+            xbmc.sleep(100)
+            waited += 100
+
+        unRegisterSlot(self.sourceID, self.signal)
+
+        return self._return
+
+def registerSlot(signaler_id, signal, callback):
+    receiver = _getReceiver()
+    receiver.registerSlot(signaler_id, signal, callback)
+
+def unRegisterSlot(signaler_id, signal):
+    receiver = _getReceiver()
+    receiver.unRegisterSlot(signaler_id, signal)
+
+def sendSignal(signal, data=None, source_id=None):
+    source_id = source_id or xbmcaddon.Addon().getAddonInfo('id')
+    command = 'XBMC.NotifyAll({0}.SIGNAL,{1},{2})'.format(source_id,signal,_encodeData(data))
     xbmc.executebuiltin(command)
+
+def registerCall(signaler_id, signal, callback):
+    registerSlot(signaler_id, signal, callback)
+
+def returnCall(signal, data=None, source_id=None):
+    sendSignal('_return.{0}'.format(signal), data, source_id)
+
+def makeCall(signal, data=None, source_id=None,timeout_ms=1000):
+    return CallHandler(signal, data, source_id, timeout_ms).waitForReturn()
