@@ -88,8 +88,10 @@ def unRegisterSlot(signaler_id, signal):
     receiver.unRegisterSlot(signaler_id, signal)
 
 
-def sendSignal(signal, data=None, source_id=None):
-    source_id = source_id or xbmcaddon.Addon().getAddonInfo('id')
+def sendSignal(signal, data=None, source_id=None, sourceID=None):
+    if sourceID:
+        xbmc.log('++++==== script.module.addon.signals: sourceID keyword is DEPRECATED - use source_id ====++++', xbmc.LOGNOTICE)
+    source_id = source_id or sourceID or xbmcaddon.Addon().getAddonInfo('id')
     command = 'XBMC.NotifyAll({0}.SIGNAL,{1},{2})'.format(source_id, signal,_encodeData(data))
     xbmc.executebuiltin(command)
 
