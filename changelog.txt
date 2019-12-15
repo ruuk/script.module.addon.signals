@@ -4,8 +4,9 @@ Changelog for Addon Signals
 
 Fixes an issue with json.loads() on Python 3.5 (Thanks Dag Wieers)
 Use executeJSONRPC() instead of executebuiltin() (Thanks Dag Wieers)
-Add sanity and unit checks (Thanks Dag Wieers)
-Add setup.py for automated testing (Thanks Dag Wieers)
+
+Dev: Add sanity and unit checks (Thanks Dag Wieers)
+Dev: Add setup.py for automated testing (Thanks Dag Wieers)
 
 ** 0.0.4 **
 
