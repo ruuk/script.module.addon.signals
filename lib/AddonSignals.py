@@ -30,7 +30,16 @@ def _encodeData(data):
     encoded_data = base64.b64encode(json_data)
     if sys.version_info[0] > 2:
         encoded_data = encoded_data.decode('ascii')
-    return '\\"[\\"{0}\\"]\\"'.format(encoded_data)
+    return encoded_data
+
+
+def _jsonrpc(**kwargs):
+    ''' Perform JSONRPC calls '''
+    if 'id' not in kwargs:
+        kwargs.update(id=1)
+    if 'jsonrpc' not in kwargs:
+        kwargs.update(jsonrpc='2.0')
+    return json.loads(xbmc.executeJSONRPC(json.dumps(kwargs)))
 
 
 class SignalReceiver(xbmc.Monitor):
@@ -101,8 +110,12 @@ def sendSignal(signal, data=None, source_id=None, sourceID=None):
     if sourceID:
         xbmc.log('++++==== script.module.addon.signals: sourceID keyword is DEPRECATED - use source_id ====++++', xbmc.LOGNOTICE)
     source_id = source_id or sourceID or xbmcaddon.Addon().getAddonInfo('id')
-    command = 'XBMC.NotifyAll({0}.SIGNAL,{1},{2})'.format(source_id, signal, _encodeData(data))
-    xbmc.executebuiltin(command)
+    
+    _jsonrpc(method='JSONRPC.NotifyAll', params=dict(
+        sender='%s.SIGNAL' % source_id,
+        message=signal,
+        data=[_encodeData(data)],
+    ))
 
 
 def registerCall(signaler_id, signal, callback):
