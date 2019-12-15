@@ -1,0 +1,4 @@
+kodi-addon-checker
+pylint
+setuptools >= 41
+tox-travis

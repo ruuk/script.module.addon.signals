@@ -1,0 +1,10 @@
+# Byte-compiled / optimized / DLL files
+.coverage
+.tox/
+__pycache__/
+*.py[cod]
+
+*.zip
+
+build/
+dist/

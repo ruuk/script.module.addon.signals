@@ -1,0 +1,7 @@
+[MESSAGES CONTROL]
+disable=
+    import-error,  # Since xbmc and xbmcaddon are missing
+    invalid-name,  # A lot of names do not follow conventions
+    line-too-long,  # We use flake8 for testing line-length
+    missing-docstring,  # No docstrings are used
+    old-style-class,
