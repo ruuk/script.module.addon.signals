@@ -25,6 +25,8 @@ def _decodeData(data):
             json_data = json_data.decode('utf-8')
         return json.loads(json_data)
 
+    return None
+
 
 def _encodeData(data):
     json_data = json.dumps(data)
@@ -113,7 +115,7 @@ def sendSignal(signal, data=None, source_id=None, sourceID=None):
     if sourceID:
         xbmc.log('++++==== script.module.addon.signals: sourceID keyword is DEPRECATED - use source_id ====++++', xbmc.LOGNOTICE)
     source_id = source_id or sourceID or xbmcaddon.Addon().getAddonInfo('id')
-    
+
     _jsonrpc(method='JSONRPC.NotifyAll', params=dict(
         sender='%s.SIGNAL' % source_id,
         message=signal,
