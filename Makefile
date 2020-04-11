@@ -8,7 +8,7 @@ git_branch = $(shell git rev-parse --abbrev-ref HEAD)
 git_hash = $(shell git rev-parse --short HEAD)
 
 zip_name = $(name)-$(version)-$(subst /,_,$(git_branch))-$(git_hash).zip
-include_files = addon.xml changelog.txt LICENSE.txt README.md icon.png lib/
+include_files = addon.xml LICENSE.txt README.md icon.png lib/
 include_paths = $(patsubst %,$(name)/%,$(include_files))
 exclude_files = \*.new \*.orig \*.pyc \*.pyo
 zip_dir = $(name)/
@@ -37,8 +37,7 @@ pylint:
 
 addon: clean
 	@echo -e "$(white)=$(blue) Starting sanity addon tests$(reset)"
-	kodi-addon-checker . --branch=krypton
-	kodi-addon-checker . --branch=leia
+	kodi-addon-checker . --branch=gotham
 
 unit: clean
 	@echo -e "$(white)=$(blue) Starting unit tests$(reset)"
