@@ -37,7 +37,7 @@ pylint:
 
 addon: clean
 	@echo -e "$(white)=$(blue) Starting sanity addon tests$(reset)"
-	kodi-addon-checker . --branch=gotham
+	kodi-addon-checker . --branch=matrix
 
 unit: clean
 	@echo -e "$(white)=$(blue) Starting unit tests$(reset)"
