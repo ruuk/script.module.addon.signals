@@ -12,11 +12,11 @@ RECEIVER = None
 
 def _perf_clock():
     """Provides high resolution timing in seconds"""
-    if hasattr(time, 'clock'):  # Python <= 3.3
+    if hasattr(time, 'perf_counter'):
+        return time.perf_counter()  # pylint: disable=no-member
+    if hasattr(time, 'clock'):
+        # time.clock() was deprecated in Python 3.3 and removed in Python 3.8
         return time.clock()  # pylint: disable=no-member
-    if hasattr(time, 'perf_counter'):  # Python >= 3.3
-        # "* 1e-6" convert [us] to [s]
-        return time.perf_counter() * 1e-6  # pylint: disable=no-member
     return time.time()  # Fallback
 
 
