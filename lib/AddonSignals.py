@@ -9,6 +9,8 @@ import xbmcaddon
 
 RECEIVER = None
 
+class WaitTimeoutError(Exception):
+    pass
 
 def _perf_clock():
     """Provides high resolution timing in seconds"""
@@ -87,6 +89,7 @@ class SignalReceiver(xbmc.Monitor):
 
 
 class CallHandler(object):
+    #pylint: disable=too-many-arguments
     def __init__(self, signal, data, source_id, timeout=1000, use_timeout_exception=False):
         self.signal = signal
         self.data = data
@@ -109,7 +112,7 @@ class CallHandler(object):
             if _perf_clock() > end_time:
                 if self.use_timeout_exception:
                     unRegisterSlot(self.sourceID, self.signal)
-                    raise TimeoutError
+                    raise WaitTimeoutError
                 break
             elif monitor.abortRequested():
                 raise OSError
