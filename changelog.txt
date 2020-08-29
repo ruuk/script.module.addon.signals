@@ -1,5 +1,12 @@
 Changelog for Addon Signals
 
+** 0.0.6 **
+
+Removed wrong 1e-6 multiplication (Thanks CastagnaIT)
+Fix wrong timeout on linux arm devices (Thanks CastagnaIT)
+Introduced optional WaitTimeoutError exception on timeout (Thanks CastagnaIT)
+Avoid blocking Kodi when abort is requested (Thanks CastagnaIT)
+
 ** 0.0.5 **
 
 Fixes an issue with json.loads() on Python 3.5 (Thanks Dag Wieers)
